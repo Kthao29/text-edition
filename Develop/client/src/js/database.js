@@ -12,17 +12,18 @@ const initdb = async () =>
     },
   });
 
-// TODO: Add logic to a method that accepts some content and adds it to the database
+
 export const putDb = async (content) => {
+  // connect to indexDB
   const textDb = await openDB("jate", 1);
 
-  // Creates a new transaction and specify the database and data privileges
+  // Creates a new transaction to jate
   const tx = textDb.transaction("jate", "readwrite");
 
   // Opens up the desired object store
   const store = tx.objectStore("jate");
 
-  // The .put() method is used on the store and content passed in
+  // add or update record to jate object
   const request = store.put({ id: 1, value: content });
 
   // Confirmation of the request
@@ -35,16 +36,16 @@ export const putDb = async (content) => {
 export const getDb = async () => {
   console.log("GET from the database");
 
-  // Creates a connection to the database and version we want to use
+  // Connect to indexDB
   const textDb = await openDB("jate", 1);
 
-  // Creates a new transaction and specify the database and data privileges
+  // Creates a new transaction to jate
   const tx = textDb.transaction("jate", "readonly");
 
   // Opens up the desired object store
   const store = tx.objectStore("jate");
 
-  // The .get() method is used on the store to grab stored data
+  // add or update record to jate object
   const request = store.get(1);
 
   // Confirmation of the request

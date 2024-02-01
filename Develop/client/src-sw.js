@@ -8,6 +8,7 @@ const { StaleWhileRevalidate } = require("workbox-strategies");
 
 precacheAndRoute(self.__WB_MANIFEST);
 
+// cache-first strategy for a service worker
 const pageCache = new CacheFirst({
   cacheName: 'page-cache',
   plugins: [
@@ -20,6 +21,7 @@ const pageCache = new CacheFirst({
   ],
 });
 
+// pre-cache URL
 warmStrategyCache({
   urls: ['/index.html', '/'],
   strategy: pageCache,
@@ -27,15 +29,15 @@ warmStrategyCache({
 
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
-// TODO: Implement asset caching
+// Implement asset caching
 registerRoute(
-  // Here we define the callback function that will filter the requests we want to cache (in this case, JS and CSS files)
+  // callback function of requests we can to cache
   ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
   new StaleWhileRevalidate({
     // Name of the cache storage.
     cacheName: 'asset-cache',
     plugins: [
-      // This plugin will cache responses with these headers to a maximum-age of 30 days
+      // cache responses showing a status of 0-200
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
