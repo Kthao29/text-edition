@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
-const { GenerateSW } = require('workbox-webpack-plugin');
+const { InjectManifest } = require("workbox-webpack-plugin");
 
 module.exports = () => {
   return {
@@ -26,8 +26,7 @@ module.exports = () => {
       swSrc: './src-sw.js',
       swDest: 'src-sw.js',
     }),
-
-    new GenerateSW(),
+    
     // Creates a manifest.json file.
     new WebpackPwaManifest({
       fingerprints: false,
